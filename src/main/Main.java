@@ -37,8 +37,19 @@ public class Main {
         play.setRoles(roles);
 
         Performance performance = new Performance(troupe, play);
+        Director director = performance.findDirector();
+
+        performance.setActorWithRoles(director.giveRolesToActors(troupe, play));
+
+        System.out.println("Director before the performance:\n" + director);
+        System.out.println();
 
         performance.showMustGoOn();
+        performance.changeDirectorFields(director);
+
+        System.out.println();
+        System.out.println("Success: " + performance.wasSuccess());
+        System.out.println("Director after the performance:\n" + director);
     }
 
 }

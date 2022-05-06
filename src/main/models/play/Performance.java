@@ -1,6 +1,6 @@
 package main.models.play;
 
-import main.models.troupe.Actor;
+import main.models.troupe.Director;
 import main.models.troupe.Troupe;
 import main.models.troupe.TroupeMember;
 
@@ -10,10 +10,21 @@ public class Performance {
     private Play play;
     private ActorWithRole[] actorWithRoles;
 
+    private boolean wasSuccess;
+
     public Performance(Troupe troupe, Play play) {
         this.troupe = troupe;
         this.play = play;
-        giveRolesToActors();
+    }
+
+    public Director findDirector() {
+        for (TroupeMember member : troupe.getMembers()) {
+            if (member instanceof Director director) {
+                return director;
+            }
+        }
+
+        return null;
     }
 
     public void showMustGoOn() {
@@ -25,39 +36,18 @@ public class Performance {
             System.out.println("\t" + actorWithRole.getRole().getCharacterName()
                     + " - " + actorWithRole.getActor().getName());
         }
+
+        setWasSuccess(Math.random() > 0.5);
     }
 
-    private void giveRolesToActors() {
-        actorWithRoles = new ActorWithRole[play.getRoles().length];
-
-        int membersIndex = 0;
-        int actorWithRolesIndex = 0;
-
-        for (Role role : play.getRoles()) {
-            boolean roleGiven;
-
-            do {
-                TroupeMember member = troupe.getMembers()[membersIndex];
-                roleGiven = canGiveRole(actorWithRolesIndex, member, role);
-
-                if (membersIndex == troupe.getMembers().length - 1) {
-                    membersIndex = 0;
-                } else {
-                    membersIndex++;
-                }
-            } while (!roleGiven);
-
-            actorWithRolesIndex++;
-        }
-    }
-
-    private boolean canGiveRole(int index, TroupeMember member, Role role) {
-        if (member instanceof Actor actor) {
-            actorWithRoles[index] = new ActorWithRole(actor, role);
-            return true;
+    public void changeDirectorFields(Director director) {
+        if (wasSuccess) {
+            int increasedXP = director.getExperience() + play.valueOfLevel();
+            director.setExperience(increasedXP);
         }
 
-        return false;
+        int increasedPlayNum = director.getNumberOfDirectedPlays() + 1;
+        director.setNumberOfDirectedPlays(increasedPlayNum);
     }
 
     public Troupe getTroupe() {
@@ -82,6 +72,22 @@ public class Performance {
 
     public void setPlayingActors(ActorWithRole[] actorWithRoles) {
         this.actorWithRoles = actorWithRoles;
+    }
+
+    public ActorWithRole[] getActorWithRoles() {
+        return actorWithRoles;
+    }
+
+    public void setActorWithRoles(ActorWithRole[] actorWithRoles) {
+        this.actorWithRoles = actorWithRoles;
+    }
+
+    public boolean wasSuccess() {
+        return wasSuccess;
+    }
+
+    public void setWasSuccess(boolean wasSuccess) {
+        this.wasSuccess = wasSuccess;
     }
 
 }

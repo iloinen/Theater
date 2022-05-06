@@ -20,6 +20,14 @@ public class Play {
         this.genre = genre;
     }
 
+    public int valueOfLevel() {
+        return switch (level) {
+            case EASY -> 10;
+            case MEDIUM -> 50;
+            case HARD -> 100;
+        };
+    }
+
     public String getAuthor() {
         return author;
     }
