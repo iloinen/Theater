@@ -23,30 +23,36 @@ public class Director extends TroupeMember {
         int actorWithRolesIndex = 0;
 
         for (Role role : play.getRoles()) {
-            boolean roleGiven;
-            int counter = 0;
-
-            do {
-                TroupeMember member = troupe.getMembers()[membersIndex];
-                roleGiven = canGiveRole(actorWithRoles, actorWithRolesIndex, member, role);
-
-                if (membersIndex == troupe.getMembers().length - 1) {
-                    membersIndex = 0;
-                } else {
-                    membersIndex++;
-                }
-
-                counter++;
-            } while (!roleGiven && (counter < maxTryToGiveRole) );
-
-            if (!roleGiven) {
-                pickAnyActor(actorWithRoles, actorWithRolesIndex, troupe.getMembers(), role);
-            }
+            giveRole(troupe, role, actorWithRoles, actorWithRolesIndex, membersIndex, maxTryToGiveRole);
 
             actorWithRolesIndex++;
         }
 
         return actorWithRoles;
+    }
+
+    private void giveRole(Troupe troupe, Role role, ActorWithRole[] actorWithRoles,
+                          int actorWithRolesIndex, int membersIndex, int maxTryToGiveRole) {
+        boolean roleGiven;
+        int counter = 0;
+
+        do {
+            TroupeMember member = troupe.getMembers()[membersIndex];
+
+            roleGiven = canGiveRole(actorWithRoles, actorWithRolesIndex, member, role);
+
+            if (membersIndex == troupe.getMembers().length - 1) {
+                membersIndex = 0;
+            } else {
+                membersIndex++;
+            }
+
+            counter++;
+        } while (!roleGiven && (counter < maxTryToGiveRole) );
+
+        if (!roleGiven) {
+            pickAnyActor(actorWithRoles, actorWithRolesIndex, troupe.getMembers(), role);
+        }
     }
 
     private boolean canGiveRole(ActorWithRole[] actorWithRoles, int index, TroupeMember member, Role role) {
