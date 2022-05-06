@@ -1,4 +1,7 @@
-package main;
+package main.models.play;
+
+import main.models.enums.PlayGenre;
+import main.models.enums.PlayLevel;
 
 public class Play {
 
@@ -6,11 +9,15 @@ public class Play {
     private String title;
     private int numberOfActs;
     private Role[] roles;
+    private PlayLevel level;
+    private PlayGenre genre;
 
-    public Play(String author, String title, int numberOfActs) {
+    public Play(String author, String title, int numberOfActs, PlayLevel level, PlayGenre genre) {
         this.author = author;
         this.title = title;
         this.numberOfActs = numberOfActs;
+        this.level = level;
+        this.genre = genre;
     }
 
     public String getAuthor() {
@@ -43,6 +50,22 @@ public class Play {
 
     public void setRoles(Role[] roles) {
         this.roles = roles;
+    }
+
+    public PlayLevel getLevel() {
+        return level;
+    }
+
+    public void setLevel(PlayLevel level) {
+        this.level = level;
+    }
+
+    public PlayGenre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(PlayGenre genre) {
+        this.genre = genre;
     }
 
 }

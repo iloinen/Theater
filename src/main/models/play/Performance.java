@@ -1,4 +1,8 @@
-package main;
+package main.models.play;
+
+import main.models.troupe.Actor;
+import main.models.troupe.Troupe;
+import main.models.troupe.TroupeMember;
 
 public class Performance {
 
@@ -26,21 +30,34 @@ public class Performance {
     private void giveRolesToActors() {
         actorWithRoles = new ActorWithRole[play.getRoles().length];
 
-        int actorIndex = 0;
+        int membersIndex = 0;
+        int actorWithRolesIndex = 0;
 
-        for (int i = 0; i < play.getRoles().length; i++) {
-            giveOneRoleToActor(i, troupe.getActors()[actorIndex], play.getRoles()[i]);
+        for (Role role : play.getRoles()) {
+            boolean roleGiven;
 
-            if (actorIndex == troupe.getActors().length - 1) {
-                actorIndex = 0;
-            } else {
-                actorIndex++;
-            }
+            do {
+                TroupeMember member = troupe.getMembers()[membersIndex];
+                roleGiven = canGiveRole(actorWithRolesIndex, member, role);
+
+                if (membersIndex == troupe.getMembers().length - 1) {
+                    membersIndex = 0;
+                } else {
+                    membersIndex++;
+                }
+            } while (!roleGiven);
+
+            actorWithRolesIndex++;
         }
     }
 
-    private void giveOneRoleToActor(int index, Actor actor, Role role) {
-        actorWithRoles[index] = new ActorWithRole(actor, role);
+    private boolean canGiveRole(int index, TroupeMember member, Role role) {
+        if (member instanceof Actor actor) {
+            actorWithRoles[index] = new ActorWithRole(actor, role);
+            return true;
+        }
+
+        return false;
     }
 
     public Troupe getTroupe() {

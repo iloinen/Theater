@@ -1,4 +1,6 @@
-package main;
+package main.models.play;
+
+import main.models.enums.RoleType;
 
 public class Role {
 

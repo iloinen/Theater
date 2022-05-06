@@ -1,4 +1,6 @@
-package main;
+package main.models.play;
+
+import main.models.troupe.Actor;
 
 public class ActorWithRole {
 
