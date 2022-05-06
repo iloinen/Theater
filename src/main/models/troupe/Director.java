@@ -15,14 +15,16 @@ public class Director extends TroupeMember {
         this.numberOfDirectedPlays = numberOfDirectedPlays;
     }
 
-    public ActorWithRole[] giveRolesToActors(Troupe troupe, Play play) {
+    public ActorWithRole[] giveAllRoles(Troupe troupe, Play play) {
         ActorWithRole[] actorWithRoles = new ActorWithRole[play.getRoles().length];
+        int maxTryToGiveRole = troupe.getMembers().length * 2;
 
         int membersIndex = 0;
         int actorWithRolesIndex = 0;
 
         for (Role role : play.getRoles()) {
             boolean roleGiven;
+            int counter = 0;
 
             do {
                 TroupeMember member = troupe.getMembers()[membersIndex];
@@ -33,7 +35,13 @@ public class Director extends TroupeMember {
                 } else {
                     membersIndex++;
                 }
-            } while (!roleGiven);
+
+                counter++;
+            } while (!roleGiven && (counter < maxTryToGiveRole) );
+
+            if (!roleGiven) {
+                pickAnyActor(actorWithRoles, actorWithRolesIndex, troupe.getMembers(), role);
+            }
 
             actorWithRolesIndex++;
         }
@@ -50,6 +58,14 @@ public class Director extends TroupeMember {
         }
 
         return false;
+    }
+
+    private void pickAnyActor(ActorWithRole[] actorWithRoles, int index, TroupeMember[] members, Role role) {
+        for (TroupeMember member : members) {
+            if (member instanceof Actor actor) {
+                actorWithRoles[index] = new ActorWithRole(actor, role);
+            }
+        }
     }
 
     public double countWorthOfWork() {

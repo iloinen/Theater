@@ -1,5 +1,6 @@
 package main.models.play;
 
+import main.models.troupe.Actor;
 import main.models.troupe.Director;
 import main.models.troupe.Troupe;
 import main.models.troupe.TroupeMember;
@@ -19,21 +20,35 @@ public class Performance {
     }
 
     public void showMustGoOn() {
-        areYouPrepared();
+        boolean areYouPrepared = areYouPrepared();
 
-        printDirector(true);
+        if (areYouPrepared) {
+            printDirector(true);
 
-        printPerformance();
+            printPerformance();
 
-        setWasSuccess(Math.random() > 0.5);
-        changeDirectorFields(director);
+            setWasSuccess(Math.random() > 0.5);
+            changeDirectorFields(director);
 
-        printDirector(false);
+            System.out.println("Success: " + wasSuccess);
+
+            printDirector(false);
+        } else {
+            System.out.println("NO PERFORMANCE BECAUSE OF THE BAD TROUPE! SORRY!");
+        }
     }
 
-    private void areYouPrepared() {
-        director = findDirector();
-        actorWithRoles = director.giveRolesToActors(troupe, play);
+    private boolean areYouPrepared() {
+        if (troupe.getMembers() != null) {
+            director = findDirector();
+
+            if (director != null && hasAnyActor()) {
+                actorWithRoles = director.giveAllRoles(troupe, play);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Director findDirector() {
@@ -44,6 +59,16 @@ public class Performance {
         }
 
         return null;
+    }
+
+    private boolean hasAnyActor() {
+        for (TroupeMember member : troupe.getMembers()) {
+            if (member instanceof Actor) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void printDirector(boolean before) {
