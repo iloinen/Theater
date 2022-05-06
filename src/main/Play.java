@@ -5,13 +5,12 @@ public class Play {
     private String author;
     private String title;
     private int numberOfActs;
-    private int numberOfRoles;
+    private Role[] roles;
 
-    public Play(String author, String title, int numberOfActs, int numberOfRoles) {
+    public Play(String author, String title, int numberOfActs) {
         this.author = author;
         this.title = title;
         this.numberOfActs = numberOfActs;
-        this.numberOfRoles = numberOfRoles;
     }
 
     public String getAuthor() {
@@ -38,12 +37,12 @@ public class Play {
         this.numberOfActs = numberOfActs;
     }
 
-    public int getNumberOfRoles() {
-        return numberOfRoles;
+    public Role[] getRoles() {
+        return roles;
     }
 
-    public void setNumberOfRoles(int numberOfRoles) {
-        this.numberOfRoles = numberOfRoles;
+    public void setRoles(Role[] roles) {
+        this.roles = roles;
     }
 
 }

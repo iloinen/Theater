@@ -4,7 +4,7 @@ public class Performance {
 
     private Troupe troupe;
     private Play play;
-    private String[] playingActors;
+    private ActorWithRole[] actorWithRoles;
 
     public Performance(Troupe troupe, Play play) {
         this.troupe = troupe;
@@ -17,23 +17,21 @@ public class Performance {
         System.out.println(play.getTitle() + " by " + play.getAuthor());
         System.out.println("Actors:");
 
-        for (String actorName : playingActors) {
-            System.out.println("\t" + actorName);
+        for (ActorWithRole actorWithRole : actorWithRoles) {
+            System.out.println("\t" + actorWithRole.getRole().getCharacterName()
+                    + " - " + actorWithRole.getActor().getName());
         }
     }
 
     private void giveRolesToActors() {
-        int roleCounter = play.getNumberOfRoles();
+        actorWithRoles = new ActorWithRole[play.getRoles().length];
+
         int actorIndex = 0;
 
-        playingActors = new String[roleCounter];
+        for (int i = 0; i < play.getRoles().length; i++) {
+            giveOneRoleToActor(i, troupe.getActors()[actorIndex], play.getRoles()[i]);
 
-        while (roleCounter > 0) {
-            giveOneRoleToActor(roleCounter - 1, troupe.getActorNames()[actorIndex]);
-
-            roleCounter--;
-
-            if (actorIndex == troupe.getActorNames().length - 1) {
+            if (actorIndex == troupe.getActors().length - 1) {
                 actorIndex = 0;
             } else {
                 actorIndex++;
@@ -41,8 +39,8 @@ public class Performance {
         }
     }
 
-    private void giveOneRoleToActor(int index, String actorName) {
-        playingActors[index] = actorName;
+    private void giveOneRoleToActor(int index, Actor actor, Role role) {
+        actorWithRoles[index] = new ActorWithRole(actor, role);
     }
 
     public Troupe getTroupe() {
@@ -61,12 +59,12 @@ public class Performance {
         this.play = play;
     }
 
-    public String[] getPlayingActors() {
-        return playingActors;
+    public ActorWithRole[] getPlayingActors() {
+        return actorWithRoles;
     }
 
-    public void setPlayingActors(String[] playingActors) {
-        this.playingActors = playingActors;
+    public void setPlayingActors(ActorWithRole[] actorWithRoles) {
+        this.actorWithRoles = actorWithRoles;
     }
 
 }

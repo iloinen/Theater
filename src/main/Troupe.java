@@ -2,18 +2,18 @@ package main;
 
 public class Troupe {
 
-    private String[] actorNames;
+    private Actor[] actors;
 
-    public Troupe(String[] actorNames) {
-        this.actorNames = actorNames;
+    public Troupe(Actor[] actors) {
+        this.actors = actors;
     }
 
-    public String[] getActorNames() {
-        return actorNames;
+    public Actor[] getActors() {
+        return actors;
     }
 
-    public void setActorNames(String[] actorNames) {
-        this.actorNames = actorNames;
+    public void setActors(Actor[] actors) {
+        this.actors = actors;
     }
 
 }
