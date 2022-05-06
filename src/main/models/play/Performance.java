@@ -9,6 +9,7 @@ public class Performance {
     private Troupe troupe;
     private Play play;
     private ActorWithRole[] actorWithRoles;
+    private Director director;
 
     private boolean wasSuccess;
 
@@ -17,7 +18,25 @@ public class Performance {
         this.play = play;
     }
 
-    public Director findDirector() {
+    public void showMustGoOn() {
+        areYouPrepared();
+
+        printDirector(true);
+
+        printPerformance();
+
+        setWasSuccess(Math.random() > 0.5);
+        changeDirectorFields(director);
+
+        printDirector(false);
+    }
+
+    private void areYouPrepared() {
+        director = findDirector();
+        actorWithRoles = director.giveRolesToActors(troupe, play);
+    }
+
+    private Director findDirector() {
         for (TroupeMember member : troupe.getMembers()) {
             if (member instanceof Director director) {
                 return director;
@@ -27,9 +46,16 @@ public class Performance {
         return null;
     }
 
-    public void showMustGoOn() {
+    private void printDirector(boolean before) {
+        String text = "Director " + (before ? "before" : "after") + " the performance:";
+
+        System.out.println(text);
+        System.out.println("\t" + director);
+    }
+
+    private void printPerformance() {
         System.out.println("----- PERFORMANCE -----");
-        System.out.println(play.getTitle() + " by " + play.getAuthor());
+        System.out.println(play);
         System.out.println("Actors:");
 
         for (ActorWithRole actorWithRole : actorWithRoles) {
@@ -37,7 +63,7 @@ public class Performance {
                     + " - " + actorWithRole.getActor().getName());
         }
 
-        setWasSuccess(Math.random() > 0.5);
+        System.out.println("----- END -----");
     }
 
     public void changeDirectorFields(Director director) {
@@ -88,6 +114,14 @@ public class Performance {
 
     public void setWasSuccess(boolean wasSuccess) {
         this.wasSuccess = wasSuccess;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
     }
 
 }

@@ -76,4 +76,12 @@ public class Play {
         this.genre = genre;
     }
 
+    @Override
+    public String toString() {
+        return title + " by " +
+                author + " (" +
+                level.toString().toLowerCase() + ") - " +
+                genre.toString().toLowerCase();
+    }
+
 }

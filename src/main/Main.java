@@ -11,6 +11,15 @@ import main.models.troupe.*;
 public class Main {
 
     public static void main(String[] args) {
+        Troupe troupe = createTroupe();
+        Play play = createPlay();
+
+        Performance performance = new Performance(troupe, play);
+
+        performance.showMustGoOn();
+    }
+
+    private static Troupe createTroupe() {
         TroupeMember[] members = {
                 new Director("Es Ernő", 100, 10, 1),
                 new PropMan("Farkas Piroska", 50, new String[]{"mérgezett piros alma"}),
@@ -23,8 +32,10 @@ public class Main {
                 new Actor("Mond Tamás", 10, RoleType.YOUNG)
         };
 
-        Troupe troupe = new Troupe(members);
+        return new Troupe("Council of Six", members);
+    }
 
+    private static Play createPlay() {
         Play play = new Play("Szerző", "Cím", 1, PlayLevel.EASY, PlayGenre.COMEDY);
 
         Role[] roles = {
@@ -36,20 +47,7 @@ public class Main {
 
         play.setRoles(roles);
 
-        Performance performance = new Performance(troupe, play);
-        Director director = performance.findDirector();
-
-        performance.setActorWithRoles(director.giveRolesToActors(troupe, play));
-
-        System.out.println("Director before the performance:\n" + director);
-        System.out.println();
-
-        performance.showMustGoOn();
-        performance.changeDirectorFields(director);
-
-        System.out.println();
-        System.out.println("Success: " + performance.wasSuccess());
-        System.out.println("Director after the performance:\n" + director);
+        return play;
     }
 
 }
