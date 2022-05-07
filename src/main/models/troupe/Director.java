@@ -17,7 +17,7 @@ public class Director extends TroupeMember {
 
     public ActorWithRole[] giveAllRoles(Troupe troupe, Play play) {
         ActorWithRole[] actorWithRoles = new ActorWithRole[play.getRoles().length];
-        int maxTryToGiveRole = troupe.getMembers().length * 2;
+        int maxTryToGiveRole = troupe.getMembers().length;
 
         int membersIndex = 0;
         int actorWithRolesIndex = 0;
@@ -31,8 +31,8 @@ public class Director extends TroupeMember {
         return actorWithRoles;
     }
 
-    private void giveRole(Troupe troupe, Role role, ActorWithRole[] actorWithRoles,
-                          int actorWithRolesIndex, int membersIndex, int maxTryToGiveRole) {
+    private void giveRole(Troupe troupe, Role role, ActorWithRole[] actorWithRoles, int actorWithRolesIndex,
+                          int membersIndex, int maxTryToGiveRole) {
         boolean roleGiven;
         int counter = 0;
 
